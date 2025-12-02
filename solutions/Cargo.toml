@@ -1,0 +1,6 @@
+[workspace]
+resolver = "3"
+members = [
+  "aoclib",
+  "day-01", "day-02",
+]
