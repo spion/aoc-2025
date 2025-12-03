@@ -1,7 +1,7 @@
 #!/bin/env nu
 
 def main [] {
-  cat | 
+  cat |
   parse -r '([LR])([\d]+)' |
   rename dir val |
   into int val |
