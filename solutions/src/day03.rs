@@ -1,9 +1,7 @@
 use anyhow::Result;
-use std::{env, io};
+use std::io;
 
 fn main() -> Result<()> {
-  let args: Vec<String> = env::args().collect();
-
   let mut sum = 0;
   for line in io::stdin().lines() {
     let bank = line?;
