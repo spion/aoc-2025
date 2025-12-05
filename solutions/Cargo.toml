@@ -5,8 +5,8 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.100"
+itertools = "0.14.0"
 peg = "0.8.5"
-
 
 [[bin]]
 name = "day02"
@@ -19,3 +19,7 @@ path = "src/day03.rs"
 [[bin]]
 name = "day04"
 path = "src/day04.rs"
+
+[[bin]]
+name = "day05"
+path = "src/day05.rs"

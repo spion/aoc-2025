@@ -40,19 +40,31 @@ fn count_near_toilet_rolls(ix: usize, iy: usize, map: &SolutionMap) -> usize {
 }
 
 fn main() -> Result<()> {
-  let toilet_grid = io::stdin()
+  let mut toilet_grid = io::stdin()
     .lines()
     .map(|l| l.map(|l| l.chars().map(|c| c.into()).collect::<Vec<MapPoint>>()))
     .collect::<Result<Vec<_>, io::Error>>()?;
 
   let mut sum = 0;
-  for (i, line) in toilet_grid.iter().enumerate() {
-    for (j, item) in line.iter().enumerate() {
-      if *item == MapPoint::ToiletRoll && count_near_toilet_rolls(i, j, &toilet_grid) < 4 {
-        sum += 1
+
+  while {
+    let mut removals: Vec<(usize, usize)> = vec![];
+    for (i, line) in toilet_grid.iter().enumerate() {
+      for (j, item) in line.iter().enumerate() {
+        if *item == MapPoint::ToiletRoll && count_near_toilet_rolls(i, j, &toilet_grid) < 4 {
+          removals.push((i, j));
+          sum += 1;
+        }
       }
     }
-  }
+
+    for (x, y) in removals.iter() {
+      toilet_grid[*x][*y] = MapPoint::Empty;
+    }
+
+    removals.len() > 0
+  } {}
+
   println!("{}", sum);
 
   Ok(())
