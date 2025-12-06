@@ -1,5 +1,3 @@
-// Rust file
-
 use anyhow::Result;
 use std::io::{self, Read};
 
