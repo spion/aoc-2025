@@ -8,6 +8,7 @@ peg::parser! {
   grammar ranges_parser() for str {
     rule range() -> (u64, u64)
       = start:number() "-" end:number() { (start, end) }
+
     rule number() -> u64
       = n:$(['0'..='9']+) {? n.parse().or(Err("Cant parse u64")) }
 
