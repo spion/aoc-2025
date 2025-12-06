@@ -18,7 +18,7 @@ peg::parser! {
       = l:(number() ** "\n") { l }
 
     pub rule data() -> (Vec<(u64, u64)>, Vec<u64>)
-      = rl:range_list() "\n\n" nl:number_list() "\n" { (rl, nl) }
+      = rl:range_list() "\n"+ nl:number_list() "\n"* { (rl, nl) }
   }
 }
 
