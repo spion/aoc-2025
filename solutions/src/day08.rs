@@ -43,11 +43,7 @@ fn all_linked<T>(item: &T, links: &Vec<(&T, &T)>, linked: &mut HashSet<T>)
 where
   T: Eq + Hash + Copy,
 {
-  for x in links
-    .iter()
-    .filter(|(a, b)| a == &item || b == &item)
-    .flat_map(|(a, b)| vec![a, b])
-  {
+  for x in links.iter().filter(|(a, b)| a == &item || b == &item).flat_map(|(a, b)| vec![a, b]) {
     if linked.get(x) == None {
       linked.insert(**x);
       all_linked(*x, links, linked);
@@ -62,10 +58,7 @@ fn main() -> Result<()> {
 
   let args: Vec<String> = env::args().collect();
   let solution_part = args.get(1).map(|x| x.as_str()).unwrap_or("pt1");
-  let max_connections = args
-    .get(2)
-    .map(|x| str::parse::<usize>(x).unwrap_or(10))
-    .unwrap_or(10);
+  let max_connections = args.get(2).map(|x| str::parse::<usize>(x).unwrap_or(10)).unwrap_or(10);
   let mut potential_links = coordinates
     .iter()
     .enumerate()

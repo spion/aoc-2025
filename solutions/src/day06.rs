@@ -67,20 +67,13 @@ fn main() -> Result<()> {
       .sum();
     println!("{}", solution);
   } else {
-    let char_grid = data
-      .split("\n")
-      .map(|l| l.chars().collect::<Vec<_>>())
-      .collect::<Vec<_>>();
+    let char_grid = data.split("\n").map(|l| l.chars().collect::<Vec<_>>()).collect::<Vec<_>>();
 
     let lines = char_grid.len();
     let longest_len = char_grid.iter().max_by_key(|v| v.len()).unwrap().len();
     let fixed_data: String = (0..longest_len)
       .rev()
-      .map(|col| {
-        (0..lines)
-          .map(|l| char_grid[l].get(col).unwrap_or(&' '))
-          .collect::<String>()
-      })
+      .map(|col| (0..lines).map(|l| char_grid[l].get(col).unwrap_or(&' ')).collect::<String>())
       .collect();
 
     let problems = problem::pt2(&fixed_data)?;

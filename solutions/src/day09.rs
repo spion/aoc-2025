@@ -76,22 +76,14 @@ fn main() -> Result<()> {
   let args: Vec<String> = env::args().collect();
   let solution_part = args.get(1).map(|x| x.as_str()).unwrap_or("pt1");
 
-  let coords = io::stdin()
-    .lines()
-    .map(|line| line?.as_str().try_into())
-    .collect::<Result<Vec<Coord>>>()?;
+  let coords =
+    io::stdin().lines().map(|line| line?.as_str().try_into()).collect::<Result<Vec<Coord>>>()?;
 
   if solution_part == "pt1" {
     let area_max = coords
       .iter()
       .enumerate()
-      .flat_map(|(i, c1)| {
-        coords
-          .iter()
-          .skip(i + 1)
-          .map(|c2| (c1, c2))
-          .collect::<Vec<_>>()
-      })
+      .flat_map(|(i, c1)| coords.iter().skip(i + 1).map(|c2| (c1, c2)).collect::<Vec<_>>())
       .map(|(c1, c2)| ((c1.x - c2.x).abs() + 1) * ((c1.y - c2.y).abs() + 1))
       .max()
       .ok_or(anyhow!("No coordinates found"))?;
@@ -130,14 +122,12 @@ fn main() -> Result<()> {
 
     // Make a cute tiny map!
     // In my testing this turns out to be around 250x250, no issues with that size
-    let mut tiny_map = (0..*max_y + 2)
-      .map(|_| vec![Fill::None; *max_x as usize + 2])
-      .collect::<Vec<_>>();
+    let mut tiny_map =
+      (0..*max_y + 2).map(|_| vec![Fill::None; *max_x as usize + 2]).collect::<Vec<_>>();
 
     // Prepare to draw the tiny lines.
-    let lines = tiny_coords
-      .iter()
-      .zip(tiny_coords.iter().skip(1).chain(tiny_coords.iter().take(1)));
+    let lines =
+      tiny_coords.iter().zip(tiny_coords.iter().skip(1).chain(tiny_coords.iter().take(1)));
 
     // Fill the lines
     for ((sx, sy), (ex, ey)) in lines {
@@ -169,13 +159,7 @@ fn main() -> Result<()> {
     let area_max = coords
       .iter()
       .enumerate()
-      .flat_map(|(i, c1)| {
-        coords
-          .iter()
-          .skip(i + 1)
-          .map(|c2| (c1, c2))
-          .collect::<Vec<_>>()
-      })
+      .flat_map(|(i, c1)| coords.iter().skip(i + 1).map(|c2| (c1, c2)).collect::<Vec<_>>())
       .filter(|(c1, c2)| {
         // can we use this pair? translate to tiny coordinate system
         let tx1 = tiny_x.get(&c1.x).unwrap();

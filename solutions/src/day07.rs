@@ -32,18 +32,13 @@ fn main() -> Result<()> {
       let pts: Vec<Point> = line?.chars().map(|c| c.into()).collect();
       if current_beams.len() == 0 {
         println!("Initializing");
-        current_beams = pts
-          .iter()
-          .enumerate()
-          .filter(|(_, pt)| **pt == Point::Start)
-          .map(|(ix, _)| ix)
-          .collect();
+        current_beams =
+          pts.iter().enumerate().filter(|(_, pt)| **pt == Point::Start).map(|(ix, _)| ix).collect();
 
         println!("Beaming {:?}", current_beams);
       } else {
-        let (split_points, continued_beams): (Vec<usize>, Vec<usize>) = current_beams
-          .into_iter()
-          .partition(|ix| pts[*ix] == Point::Splitter);
+        let (split_points, continued_beams): (Vec<usize>, Vec<usize>) =
+          current_beams.into_iter().partition(|ix| pts[*ix] == Point::Splitter);
 
         solution += split_points.len();
 
@@ -64,12 +59,7 @@ fn main() -> Result<()> {
       if beam_counts.len() == 0 {
         beam_counts = vec![0; pts.len()];
         println!("Initializing");
-        for ix in pts
-          .iter()
-          .enumerate()
-          .filter(|(_, pt)| **pt == Point::Start)
-          .map(|(ix, _)| ix)
-        {
+        for ix in pts.iter().enumerate().filter(|(_, pt)| **pt == Point::Start).map(|(ix, _)| ix) {
           beam_counts[ix] = 1;
         }
       } else {
