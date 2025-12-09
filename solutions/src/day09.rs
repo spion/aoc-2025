@@ -5,6 +5,7 @@ use std::cmp::min;
 use std::collections::HashMap;
 use std::io;
 
+use rayon::prelude::*;
 use std::env;
 use std::ops::RangeInclusive;
 
@@ -157,7 +158,7 @@ fn main() -> Result<()> {
 
     // For every possible pair of red coordinates
     let area_max = coords
-      .iter()
+      .par_iter()
       .enumerate()
       .flat_map(|(i, c1)| coords.iter().skip(i + 1).map(|c2| (c1, c2)).collect::<Vec<_>>())
       .filter(|(c1, c2)| {
