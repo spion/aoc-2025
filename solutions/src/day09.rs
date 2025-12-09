@@ -98,6 +98,10 @@ fn main() -> Result<()> {
 
     println!("{}", area_max);
   } else {
+    // Lets make a tiny map from the big map!
+    // Every unique x of a red tile is a new position in x coordinates
+    // Similarly, every unique y is a new position in y coordinates
+    // We offset by 1 to leave spaces around the border of the new map.
     let tiny_x = coords
       .iter()
       .map(|c| c.x)
@@ -118,15 +122,19 @@ fn main() -> Result<()> {
     let max_x = tiny_x.values().max().unwrap();
     let max_y = tiny_y.values().max().unwrap();
 
+    // Translate the coordinates to the tiny coordinate system
     let tiny_coords = coords
       .iter()
       .map(|c| (tiny_x.get(&c.x).unwrap(), tiny_y.get(&c.y).unwrap()))
       .collect::<Vec<_>>();
 
+    // Make a cute tiny map!
+    // In my testing this turns out to be around 250x250, no issues with that size
     let mut tiny_map = (0..*max_y + 2)
       .map(|_| vec![Fill::None; *max_x as usize + 2])
       .collect::<Vec<_>>();
 
+    // Prepare to draw the tiny lines.
     let lines = tiny_coords
       .iter()
       .zip(tiny_coords.iter().skip(1).chain(tiny_coords.iter().take(1)));
@@ -142,6 +150,7 @@ fn main() -> Result<()> {
           tiny_map[**sy][x] = Fill::Filled
         }
       } else {
+        // We assume all lines are along the x axis or the y axis, panic if not
         panic!(
           "Unexpected coordinate alignment {} {}; {} {}",
           sx, sy, ex, ey
@@ -149,9 +158,14 @@ fn main() -> Result<()> {
       }
     }
     //show(&tiny_map);
+
+    // Flood-fill from the top left corner with emptyness. The flood stops at the drawn borders
+    // Thanks to our slightly larger map, it should be able to go around the edges and reach every
+    // bit of empty space.
     flood(&mut tiny_map, 0, 0, Fill::Empty);
     //show(&tiny_map);
 
+    // For every possible pair of red coordinates
     let area_max = coords
       .iter()
       .enumerate()
@@ -163,11 +177,14 @@ fn main() -> Result<()> {
           .collect::<Vec<_>>()
       })
       .filter(|(c1, c2)| {
+        // can we use this pair? translate to tiny coordinate system
         let tx1 = tiny_x.get(&c1.x).unwrap();
         let tx2 = tiny_x.get(&c2.x).unwrap();
         let ty1 = tiny_y.get(&c1.y).unwrap();
         let ty2 = tiny_y.get(&c2.y).unwrap();
 
+        // then check if the entire area of this rectangle is non-empty
+        // if a single tile was reached by the flood-fill, early return.
         for y in rng(*ty1, *ty2) {
           for x in rng(*tx1, *tx2) {
             if tiny_map[y][x] == Fill::Empty {
