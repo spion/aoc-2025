@@ -8,6 +8,7 @@ anyhow = "1.0.100"
 itertools = "0.14.0"
 peg = "0.8.5"
 rayon = "1.11.0"
+good_lp = {version = "1.14.2", features = ["coin_cbc"], default-features = false}
 
 [[bin]]
 name = "day02"
@@ -40,3 +41,7 @@ path = "src/day08.rs"
 [[bin]]
 name = "day09"
 path = "src/day09.rs"
+
+[[bin]]
+name = "day10"
+path = "src/day10.rs"
