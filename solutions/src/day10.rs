@@ -60,34 +60,6 @@ fn moves_pt1(pos: u64, buttons: Vec<u64>) -> Vec<u64> {
   buttons.iter().map(|b| pos ^ b).collect()
 }
 
-fn wirings_to_counters(ws: Vec<u64>, len: usize) -> Vec<u64> {
-  let mut r = vec![0; len];
-  for w in ws {
-    r[w as usize] = 1;
-  }
-  r
-}
-
-fn moves_pt2(pos: &Vec<u64>, buttons: &Vec<Vec<u64>>, max: &Vec<u64>) -> Vec<Vec<u64>> {
-  let m = buttons
-    .iter()
-    .filter_map(|b| {
-      let mut new_opt = pos.clone();
-      for &ix in b {
-        let i = ix as usize;
-        new_opt[i] += 1;
-        if new_opt[i] > max[i] {
-          return None;
-        }
-      }
-      return Some(new_opt);
-    })
-    .collect();
-
-  //println!("{:?} :: {:?} -> {:?}", pos, max, m);
-  m
-}
-
 peg::parser! {
   grammar problem() for str {
     rule _() = quiet!{[' ' | '\n' | '\t']+}
@@ -128,9 +100,6 @@ peg::parser! {
 }
 
 fn main() -> Result<()> {
-  //let args: Vec<String> = env::args().collect();
-  //let solution_part = args.get(1).map(|x| x.as_str()).unwrap_or("pt1");
-
   let mut solution_pt1 = 0usize;
   let mut solution_pt2 = 0.0f64;
   for line in io::stdin().lines() {
