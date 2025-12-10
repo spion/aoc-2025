@@ -55,19 +55,19 @@ fn flood(a: &mut Vec<Vec<Fill>>, x: usize, y: usize, f: Fill) {
   }
 }
 
-fn show(a: &Vec<Vec<Fill>>) {
-  for y in 0..a.len() {
-    for x in 0..a[y].len() {
-      let c = match a[y][x] {
-        Fill::Filled => 'x',
-        Fill::None => 'O',
-        Fill::Empty => '.',
-      };
-      print!("{}", c);
-    }
-    println!("");
-  }
-}
+// fn show(a: &Vec<Vec<Fill>>) {
+//   for y in 0..a.len() {
+//     for x in 0..a[y].len() {
+//       let c = match a[y][x] {
+//         Fill::Filled => 'x',
+//         Fill::None => 'O',
+//         Fill::Empty => '.',
+//       };
+//       print!("{}", c);
+//     }
+//     println!("");
+//   }
+// }
 
 fn rng<T: Ord + Copy>(one: T, two: T) -> RangeInclusive<T> {
   min(one, two)..=max(one, two)

@@ -137,7 +137,6 @@ fn main() -> Result<()> {
     }
 
     let solution = model.solve()?;
-    //let solution = model.solve()?
 
     let presses_pt2 = y.iter().map(|v| solution.value(*v)).sum::<f64>();
     solution_pt2 += presses_pt2;
