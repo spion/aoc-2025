@@ -1,6 +1,6 @@
 use anyhow::Result;
 use good_lp::{
-  self, Expression, ProblemVariables, Solution, SolverModel, Variable, coin_cbc, variable,
+  self, Expression, ProblemVariables, Solution, SolverModel, Variable, microlp, variable,
 };
 use std::collections::{HashMap, VecDeque};
 use std::hash::Hash;
@@ -121,7 +121,7 @@ fn main() -> Result<()> {
     let y: Vec<Variable> = p.add_all(vars);
     let objective: Expression = y.iter().sum();
 
-    let mut model = p.minimise(objective).using(coin_cbc);
+    let mut model = p.minimise(objective).using(microlp);
     // add constraints
     for (jx, jolt) in machine.joltages.iter().enumerate() {
       let expr: Expression = machine

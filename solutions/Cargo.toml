@@ -8,7 +8,7 @@ anyhow = "1.0.100"
 itertools = "0.14.0"
 peg = "0.8.5"
 rayon = "1.11.0"
-good_lp = {version = "1.14.2", features = ["coin_cbc"], default-features = false}
+good_lp = {version = "1.14.2", features = ["microlp"], default-features = false}
 
 [[bin]]
 name = "day02"
