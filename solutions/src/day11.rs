@@ -11,7 +11,7 @@ peg::parser! {
     rule node() -> String
       = n:$(['a'..='z']+) { n.to_string() }
 
-    pub rule pt1_line() -> (String, Vec<String>)
+    pub rule line() -> (String, Vec<String>)
       = from:node() ":" _ to:(node() ** _) { (from, to) }
   }
 }
@@ -149,7 +149,7 @@ fn main() -> Result<()> {
 
   for line in io::stdin().lines() {
     let data = line?;
-    let (from, to) = problem::pt1_line(&data)?;
+    let (from, to) = problem::line(&data)?;
     map.insert(from, to);
   }
   let start = "you".to_string();
