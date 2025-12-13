@@ -184,7 +184,7 @@ fn main() -> Result<()> {
     } else if fit_impossible(&r, &presents) {
       continue;
     } else if fits_linear_simple(&r) {
-      //sum += 1;
+      sum += 1;
       println!("Linear simple");
     }
   }
